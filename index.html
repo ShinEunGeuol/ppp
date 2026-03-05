@@ -67,6 +67,33 @@
             instructions.style.display = 'none';
             gameLoop();
         }
+        const bgMusic = new Audio('music.mp3');
+bgMusic.loop = true; // Make the music repeat
+bgMusic.volume = 0.4; // Set volume to 40%
+
+const crashSound = new Audio('crash.mp3');
+
+// --- 2. Update Start Function ---
+function startGame() {
+    if (isRunning) return;
+    
+    // Start music on first tap (browser requirement)
+    bgMusic.play().catch(e => console.log("Music waiting for interaction"));
+    
+    isRunning = true;
+    score = 0;
+    // ... rest of your start logic
+}
+
+// --- 3. Update Game Over ---
+function gameOver() {
+    isRunning = false;
+    
+    // Stop music and play crash
+    bgMusic.pause();
+    bgMusic.currentTime = 0; // Reset music to start
+    crashSound.play();
+}
 
         function gameLoop() {
             if (!isRunning) return;
@@ -144,3 +171,4 @@
     </script>
 </body>
 </html>
+
