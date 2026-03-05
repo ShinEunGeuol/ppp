@@ -5,27 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dodge Game</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
+    <link rel="stylesheet" href="style.css"> <meta name="theme-color" content="#1a1a2e">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
-        body { 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; background: #1a1a2e; font-family: sans-serif;
-            overflow: hidden;
-        }
-        #gameContainer { position: relative; width: 400px; height: 600px; }
-        canvas { background: #000; border: 2px solid #444; width: 100%; height: 100%; }
-        #instructions {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; text-align: center; width: 80%; pointer-events: none;
-            background: rgba(0,0,0,0.7); padding: 20px; border-radius: 10px;
-        }
-        #score { position: absolute; top: 10px; left: 10px; color: white; font-size: 20px; font-weight: bold; }
-    </style>
 </head>
 <body>
+
     <div id="gameContainer">
         <canvas id="gameCanvas" width="400" height="600"></canvas>
         <div id="score">Score: 0</div>
@@ -35,138 +19,5 @@
         </div>
     </div>
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreElement = document.getElementById('score');
-        const instructions = document.getElementById('instructions');
-
-        // Audio Setup
-        const bgMusic = new Audio('music.mp3');
-        bgMusic.loop = true;
-        bgMusic.volume = 0.4;
-        const crashSound = new Audio('crash.mp3');
-
-        const PLAYER_SIZE = 35;
-        const ENEMY_SIZE = 30;
-        let PLAYER_SPEED = 7;
-        let enemySpeed = 4;
-        
-        let isRunning = false;
-        let score = 0;
-        let frameCount = 0;
-        let enemies = [];
-        let playerX = canvas.width / 2 - PLAYER_SIZE / 2;
-        let playerY = canvas.height - PLAYER_SIZE - 20;
-
-        let keys = { left: false, right: false };
-        let touchLeft = false, touchRight = false;
-
-        // SINGLE START FUNCTION
-        function startGame() {
-            if (isRunning) return;
-            
-            // Audio Playback
-            bgMusic.play().catch(e => console.log("Music interaction required"));
-            
-            // Reset Game State
-            isRunning = true;
-            score = 0;
-            frameCount = 0;
-            enemies = [];
-            enemySpeed = 4;
-            playerX = canvas.width / 2 - PLAYER_SIZE / 2;
-            scoreElement.textContent = 'Score: 0';
-            instructions.style.display = 'none';
-            
-            gameLoop();
-        }
-
-        // SINGLE GAME OVER FUNCTION
-        function gameOver() {
-            isRunning = false;
-            
-            // Audio Effects
-            bgMusic.pause();
-            bgMusic.currentTime = 0; 
-            crashSound.play().catch(e => {});
-
-            // UI Update
-            document.getElementById('title').innerText = "GAME OVER";
-            document.getElementById('desc').innerHTML = `Score: ${score}<br>Tap to Restart`;
-            instructions.style.display = 'block';
-        }
-
-        function gameLoop() {
-            if (!isRunning) return;
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        function update() {
-            frameCount++;
-            if (frameCount % 30 === 0) {
-                enemies.push({ x: Math.random() * (canvas.width - ENEMY_SIZE), y: -ENEMY_SIZE });
-                if(score > 0 && score % 10 === 0) enemySpeed += 0.2; 
-            }
-
-            for (let i = 0; i < enemies.length; i++) {
-                enemies[i].y += enemySpeed;
-                if (checkCollision(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE, enemies[i].x, enemies[i].y, ENEMY_SIZE, ENEMY_SIZE)) {
-                    gameOver();
-                    return;
-                }
-                if (enemies[i].y > canvas.height) {
-                    enemies.splice(i, 1);
-                    score++;
-                    scoreElement.textContent = 'Score: ' + score;
-                    i--;
-                }
-            }
-
-            if (keys.left || touchLeft) playerX -= PLAYER_SPEED;
-            if (keys.right || touchRight) playerX += PLAYER_SPEED;
-            if (playerX < 0) playerX = 0;
-            if (playerX > canvas.width - PLAYER_SIZE) playerX = canvas.width - PLAYER_SIZE;
-        }
-
-        function checkCollision(x1, y1, w1, h1, x2, y2, w2, h2) {
-            return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
-        }
-
-        function draw() {
-            ctx.fillStyle = '#1a1a2e';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Player
-            ctx.fillStyle = '#00ffcc';
-            ctx.shadowBlur = 10; ctx.shadowColor = '#00ffcc';
-            ctx.fillRect(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
-            
-            // Enemies
-            ctx.fillStyle = '#ff4d4d';
-            ctx.shadowColor = '#ff4d4d';
-            for (let e of enemies) ctx.fillRect(e.x, e.y, ENEMY_SIZE, ENEMY_SIZE);
-            ctx.shadowBlur = 0;
-        }
-
-        // Input Listeners
-        window.addEventListener('keydown', e => { if(e.key==='ArrowLeft') keys.left=true; if(e.key==='ArrowRight') keys.right=true; });
-        window.addEventListener('keyup', e => { if(e.key==='ArrowLeft') keys.left=false; if(e.key==='ArrowRight') keys.right=false; });
-        
-        canvas.addEventListener('touchstart', e => {
-            e.preventDefault();
-            const x = e.touches[0].clientX - canvas.getBoundingClientRect().left;
-            if (x < canvas.width / 2) touchLeft = true; else touchRight = true;
-            if (!isRunning) startGame();
-        });
-        canvas.addEventListener('touchend', () => { touchLeft = false; touchRight = false; });
-        canvas.addEventListener('mousedown', (e) => { 
-            if (!isRunning) startGame(); 
-        });
-
-        draw();
-    </script>
-</body>
+    <script src="DodgeGame.js"></script> </body>
 </html>
