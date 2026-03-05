@@ -1,25 +1,34 @@
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dodge Game</title>
+    <link rel="stylesheet" href="GameStyle.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="GameStyle.css"> <meta name="theme-color" content="#1a1a2e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 
-    <div id="gameContainer">
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
-        <div id="score">Score: 0</div>
-        <div id="instructions">
-            <h2 id="title">DODGE!</h2>
-            <p id="desc">Tap sides to move & start</p>
+<div id="gameContainer">
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    
+    <div id="ui">
+        <div id="score">0</div>
+        <div id="highScore">Best: 0</div>
+        <div id="levelContainer">
+            <div id="levelTag">LVL 1</div>
+            <div id="levelBarBG"><div id="levelBar"></div></div>
         </div>
     </div>
 
-    <script src="DodgeGame.js"></script> </body>
+    <div id="instructions">
+        <h1 id="title">DODGE</h1>
+        <p id="desc">Use Arrows or Tap Sides to move</p>
+        <button id="startBtn">START GAME</button>
+    </div>
+</div>
+
+<script src="DodgeGame.js"></script>
+</body>
 </html>
-
-
