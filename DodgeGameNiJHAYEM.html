@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodge Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a1a2e;
+            font-family: Arial, sans-serif;
+        }
+        
+        #gameContainer {
+            position: relative;
+        }
+        
+        canvas {
+            background: #000;
+            border: 2px solid #444;
+            display: block;
+        }
+        
+        #instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <div id="score">Score: 0</div>
+        <div id="instructions">
+            <h2>Dodge the Red Blocks!</h2>
+            <p>Desktop: Use ← → Arrow Keys</p>
+            <p>Mobile: Tap Left/Right sides of screen</p>
+            <p>Tap anywhere to start</p>
+        </div>
+    </div>
+
+    <script>
+        // Game Settings
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const instructions = document.getElementById('instructions');
+
+        const PLAYER_SIZE = 30;
+        const ENEMY_SIZE = 30;
+        const GAME_SPEED = 16; // ~60 FPS
+        const ENEMY_SPEED = 3;
+        const PLAYER_SPEED = 5;
+
+        // Game State
+        let isRunning = false;
+        let score = 0;
+        let frameCount = 0;
+        let enemies = [];
+
+        // Player
+        let playerX = canvas.width / 2 - PLAYER_SIZE / 2;
+        let playerY = canvas.height - PLAYER_SIZE - 10;
+
+        // Touch Controls
+        let touchLeft = false;
+        let touchRight = false;
+
+        // Keyboard Controls
+        let keys = {
+            left: false,
+            right: false
+        };
+
+        // Start Game
+        function startGame() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            score = 0;
+            frameCount = 0;
+            enemies = [];
+            playerX = canvas.width / 2 - PLAYER_SIZE / 2;
+            instructions.style.display = 'none';
+            gameLoop();
+        }
+
+        // Game Loop
+        function gameLoop() {
+            if (!isRunning) return;
+
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Update Game Logic
+        function update() {
+            frameCount++;
+
+            // Spawn enemies
+            if (frameCount % 40 === 0) {
+                const randomX = Math.random() * (canvas.width - ENEMY_SIZE);
+                enemies.push({
+                    x: randomX,
+                    y: -ENEMY_SIZE,
+                    width: ENEMY_SIZE,
+                    height: ENEMY_SIZE
+                });
+            }
+
+            // Move enemies
+            for (let i = 0; i < enemies.length; i++) {
+                enemies[i].y += ENEMY_SPEED;
+
+                // Collision detection
+                if (checkCollision(playerX, playerY, PLAYER_SIZE, 
+                                   enemies[i].x, enemies[i].y, 
+                                   enemies[i].width, enemies[i].height)) {
+                    gameOver();
+                    return;
+                }
+
+                // Remove off-screen enemies
+                if (enemies[i].y > canvas.height) {
+                    enemies.splice(i, 1);
+                    score++;
+                    scoreElement.textContent = 'Score: ' + score;
+                    i--;
+                }
+            }
+
+            // Move player (keyboard)
+            if (keys.left) playerX -= PLAYER_SPEED;
+            if (keys.right) playerX += PLAYER_SPEED;
+
+            // Move player (touch)
+            if (touchLeft) playerX -= PLAYER_SPEED;
+            if (touchRight) playerX += PLAYER_SPEED;
+
+            // Boundary checks
+            if (playerX < 0) playerX = 0;
+            if (playerX > canvas.width - PLAYER_SIZE) {
+                playerX = canvas.width - PLAYER_SIZE;
+            }
+        }
+
+        // Collision Detection
+        function checkCollision(x1, y1, w1, h1, x2, y2, w2, h2) {
+            return x1 < x2 + w2 &&
+                   x1 + w1 > x2 &&
+                   y1 < y2 + h2 &&
+                   y1 + h1 > y2;
+        }
+
+        // Draw Everything
+        function draw() {
+            // Clear screen
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw player (green)
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
+
+            // Draw enemies (red)
+            ctx.fillStyle = '#ff0000';
+            for (let enemy of enemies) {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            }
+        }
+
+        // Game Over
+        function gameOver() {
+            isRunning = false;
+            instructions.innerHTML = `
+                <h2>Game Over!</h2>
+                <p>Score: ${score}</p>
+                <p>Tap to restart</p>
+            `;
+            instructions.style.display = 'block';
+        }
+
+        // Event Listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') keys.left = true;
+            if (e.key === 'ArrowRight') keys.right = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft') keys.left = false;
+            if (e.key === 'ArrowRight') keys.right = false;
+        });
+
+        // Touch Controls
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touchX = e.touches[0].clientX;
+            const rect = canvas.getBoundingClientRect();
+            const canvasX = touchX - rect.left;
+
+            if (canvasX < canvas.width / 2) {
+                touchLeft = true;
+            } else {
+                touchRight = true;
+            }
+
+            if (!isRunning) startGame();
+        });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            touchLeft = false;
+            touchRight = false;
+        });
+
+        // Click to start
+        canvas.addEventListener('click', () => {
+            if (!isRunning) startGame();
+        });
+
+        // Initial draw
+        draw();
+    </script>
+</body>
+</html>
