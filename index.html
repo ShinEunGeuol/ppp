@@ -11,7 +11,7 @@
         <!-- Game UI -->
         <div id="gameUI">
             <span>Score: <span id="score">0</span></span>
-            <span>🪙 <span id="gameCoins">0</span></span>
+            <span>💰 <span id="gameCoins">0</span></span>
             <div id="levelBarContainer">
                 <div id="levelBar"></div>
             </div>
@@ -21,36 +21,43 @@
         
         <!-- Menu Screen -->
         <div id="menuScreen" class="screen">
-            <h1>DODGE</h1>
+            <h1>⚡ DODGE ⚡</h1>
             <div class="stats">
-                <span>🪙 <span id="menuCoins">0</span></span>
-                <span>🏆 <span id="menuBest">0</span></span>
+                <div class="stat-box">
+                    <span class="stat-icon">💰</span>
+                    <span id="menuCoins">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-icon">🏆</span>
+                    <span id="menuBest">0</span>
+                </div>
             </div>
             <div class="current-skin-display">
-                <img id="previewSkin" src="67meme.png" alt="skin">
+                <img id="previewSkin" src="GamePlayer.png" alt="skin">
+                <div class="skin-name">Current Skin</div>
             </div>
-            <button id="startGameBtn">START GAME</button>
-            <button id="openShopBtn">SHOP</button>
-            <button id="openAuthorBtn">AUTHOR</button>
+            <button class="menu-btn" id="startGameBtn">▶ START GAME</button>
+            <button class="menu-btn" id="openShopBtn">🛒 SHOP</button>
+            <button class="menu-btn" id="openAuthorBtn">👤 AUTHOR</button>
         </div>
         
         <!-- Shop Screen -->
         <div id="shopScreen" class="screen">
-            <h2>SHOP</h2>
-            <div>Your Coins: 🪙 <span id="shopCoins">0</span></div>
+            <h2>🛒 SKIN SHOP</h2>
+            <div class="coins-display">Your Coins: 💰 <span id="shopCoins">0</span></div>
             <div class="skin-grid">
                 <div class="skin-item">
-                    <img src=67meme.png" alt="Default">
+                    <img src="67meme.png" alt="Default">
                     <div>Default</div>
                     <div id="skin0"></div>
                 </div>
                 <div class="skin-item">
-                    <img src="skin1.png" alt="Blue">
-                    <div>Blue</div>
+                    <img src="kobe.png" alt="kobe">
+                    <div>Kobe Litonjua</div>
                     <div id="skin1"></div>
                 </div>
                 <div class="skin-item">
-                    <img src="kobe.png" alt="Red">
+                    <img src="skin2.png" alt="Red">
                     <div>Red</div>
                     <div id="skin2"></div>
                 </div>
@@ -70,15 +77,17 @@
                     <div id="skin5"></div>
                 </div>
             </div>
-            <button class="back-btn" id="backFromShopBtn">BACK</button>
+            <button class="back-btn" id="backFromShopBtn">← BACK</button>
         </div>
         
         <!-- Author Screen -->
         <div id="authorScreen" class="screen">
-            <h2>AUTHOR</h2>
-            <div>Total Games: <span id="totalGames">0</span></div>
-            <div>Total Earnings: 🪙 <span id="totalEarnings">0</span></div>
-            <button class="back-btn" id="backFromAuthorBtn">BACK</button>
+            <h2>👤 AUTHOR</h2>
+            <div class="author-stats">
+                <div>📊 Total Games: <span id="totalGames">0</span></div>
+                <div>💰 Total Earnings: <span id="totalEarnings">0</span></div>
+            </div>
+            <button class="back-btn" id="backFromAuthorBtn">← BACK</button>
         </div>
         
         <!-- Instructions / Game Over -->
@@ -89,9 +98,9 @@
         
         <!-- Pause Menu -->
         <div id="pauseMenu">
-            <h2>PAUSED</h2>
-            <button id="resumeBtn">RESUME</button>
-            <button id="quitToMenuBtn">QUIT</button>
+            <h2>⏸ PAUSED</h2>
+            <button id="resumeBtn">▶ RESUME</button>
+            <button id="quitToMenuBtn">🏠 QUIT</button>
         </div>
     </div>
     
