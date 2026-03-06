@@ -167,6 +167,8 @@ function gameLoop() {
 
 // ===== 4. SCREEN NAVIGATION =====
 function switchScreen(screen) {
+    console.log('Switching to:', screen);
+    
     const screens = ['menuScreen', 'instructionsScreen', 'gameScreen', 'shopScreen', 'authorScreen', 'gameOverScreen'];
     screens.forEach(s => {
         const el = document.getElementById(s);
@@ -174,7 +176,11 @@ function switchScreen(screen) {
     });
     
     const target = document.getElementById(screen);
-    if (target) target.style.display = 'flex';
+    if (target) {
+        target.style.display = 'flex';
+    } else {
+        console.error('Screen not found:', screen);
+    }
     
     // Update UI based on screen
     if (screen === 'menuScreen') {
@@ -182,7 +188,8 @@ function switchScreen(screen) {
         document.getElementById('menuBest').innerText = highScore;
         isRunning = false;
         gameMusic.pause();
-        document.getElementById('pauseMenu').style.display = 'none';
+        const pauseMenu = document.getElementById('pauseMenu');
+        if (pauseMenu) pauseMenu.style.display = 'none';
     }
     
     if (screen === 'shopScreen') {
@@ -213,7 +220,12 @@ function updateShopUI() {
         }
     }
     
-    // Attach events
+    // Attach shop events
+    attachShopEvents();
+}
+
+function attachShopEvents() {
+    // Buy buttons
     document.querySelectorAll('.buy-btn').forEach(btn => {
         btn.onclick = (e) => {
             e.stopPropagation();
@@ -228,10 +240,13 @@ function updateShopUI() {
                 document.getElementById('shopCoins').innerText = coins;
                 document.getElementById('menuCoins').innerText = coins;
                 updateShopUI();
-            } else alert("Not enough coins!");
+            } else {
+                alert("Not enough coins!");
+            }
         };
     });
     
+    // Equip buttons
     document.querySelectorAll('.equip-btn').forEach(btn => {
         btn.onclick = (e) => {
             e.stopPropagation();
@@ -247,46 +262,106 @@ function updateShopUI() {
 
 // ===== 6. EVENT LISTENERS =====
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - setting up events');
+    
     // Menu buttons
-    document.getElementById('startGameBtn').onclick = () => switchScreen('instructionsScreen');
-    document.getElementById('openShopBtn').onclick = () => switchScreen('shopScreen');
-    document.getElementById('openAuthorBtn').onclick = () => switchScreen('authorScreen');
+    const startGameBtn = document.getElementById('startGameBtn');
+    if (startGameBtn) {
+        startGameBtn.addEventListener('click', () => switchScreen('instructionsScreen'));
+    }
+    
+    const openShopBtn = document.getElementById('openShopBtn');
+    if (openShopBtn) {
+        openShopBtn.addEventListener('click', () => switchScreen('shopScreen'));
+    }
+    
+    const openAuthorBtn = document.getElementById('openAuthorBtn');
+    if (openAuthorBtn) {
+        openAuthorBtn.addEventListener('click', () => switchScreen('authorScreen'));
+    }
     
     // Instructions buttons
-    document.getElementById('proceedToGameBtn').onclick = beginGame;
-    document.getElementById('backFromInstructionsBtn').onclick = () => switchScreen('menuScreen');
+    const proceedToGameBtn = document.getElementById('proceedToGameBtn');
+    if (proceedToGameBtn) {
+        proceedToGameBtn.addEventListener('click', beginGame);
+    }
+    
+    const backFromInstructionsBtn = document.getElementById('backFromInstructionsBtn');
+    if (backFromInstructionsBtn) {
+        backFromInstructionsBtn.addEventListener('click', () => switchScreen('menuScreen'));
+    }
     
     // Game over buttons
-    document.getElementById('restartBtn').onclick = restartGame;
-    document.getElementById('gameoverToMenuBtn').onclick = () => switchScreen('menuScreen');
+    const restartBtn = document.getElementById('restartBtn');
+    if (restartBtn) {
+        restartBtn.addEventListener('click', restartGame);
+    }
     
-    // Back buttons
-    document.getElementById('backFromShopBtn').onclick = () => switchScreen('menuScreen');
-    document.getElementById('backFromAuthorBtn').onclick = () => switchScreen('menuScreen');
+    const gameoverToMenuBtn = document.getElementById('gameoverToMenuBtn');
+    if (gameoverToMenuBtn) {
+        gameoverToMenuBtn.addEventListener('click', () => switchScreen('menuScreen'));
+    }
+    
+    // BACK BUTTONS - FIXED
+    const backFromShopBtn = document.getElementById('backFromShopBtn');
+    if (backFromShopBtn) {
+        console.log('Found backFromShopBtn');
+        backFromShopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Back from shop clicked');
+            switchScreen('menuScreen');
+        });
+    } else {
+        console.error('backFromShopBtn not found!');
+    }
+    
+    const backFromAuthorBtn = document.getElementById('backFromAuthorBtn');
+    if (backFromAuthorBtn) {
+        console.log('Found backFromAuthorBtn');
+        backFromAuthorBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Back from author clicked');
+            switchScreen('menuScreen');
+        });
+    } else {
+        console.error('backFromAuthorBtn not found!');
+    }
     
     // Pause buttons
-    document.getElementById('pauseBtn').onclick = () => {
-        if (isRunning) {
+    const pauseBtn = document.getElementById('pauseBtn');
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => {
+            if (isRunning) {
+                isRunning = false;
+                const pauseMenu = document.getElementById('pauseMenu');
+                if (pauseMenu) pauseMenu.style.display = 'flex';
+            }
+        });
+    }
+    
+    const resumeBtn = document.getElementById('resumeBtn');
+    if (resumeBtn) {
+        resumeBtn.addEventListener('click', () => {
+            const pauseMenu = document.getElementById('pauseMenu');
+            if (pauseMenu) pauseMenu.style.display = 'none';
+            if (!isRunning) {
+                isRunning = true;
+                gameLoop();
+                gameMusic.play().catch(() => {});
+            }
+        });
+    }
+    
+    const quitToMenuBtn = document.getElementById('quitToMenuBtn');
+    if (quitToMenuBtn) {
+        quitToMenuBtn.addEventListener('click', () => {
+            const pauseMenu = document.getElementById('pauseMenu');
+            if (pauseMenu) pauseMenu.style.display = 'none';
             isRunning = false;
-            document.getElementById('pauseMenu').style.display = 'flex';
-        }
-    };
-    
-    document.getElementById('resumeBtn').onclick = () => {
-        document.getElementById('pauseMenu').style.display = 'none';
-        if (!isRunning) {
-            isRunning = true;
-            gameLoop();
-            gameMusic.play().catch(() => {});
-        }
-    };
-    
-    document.getElementById('quitToMenuBtn').onclick = () => {
-        document.getElementById('pauseMenu').style.display = 'none';
-        isRunning = false;
-        gameMusic.pause();
-        switchScreen('menuScreen');
-    };
+            gameMusic.pause();
+            switchScreen('menuScreen');
+        });
+    }
     
     // Initialize menu
     document.getElementById('menuCoins').innerText = coins;
@@ -316,6 +391,10 @@ canvas.addEventListener('touchstart', (e) => {
 });
 
 canvas.addEventListener('touchend', () => {
+    touchLeft = false; touchRight = false;
+});
+
+canvas.addEventListener('touchcancel', () => {
     touchLeft = false; touchRight = false;
 });
 
