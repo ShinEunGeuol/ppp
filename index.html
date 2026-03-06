@@ -1,220 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dodge Game</title>
-    <link rel="stylesheet" href="GameStyle.css">
-    <link rel="manifest" href="manifest.json">
+    <title>DODGE GAME</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- MAIN MENU SCREEN -->
-<div id="menuScreen" class="screen">
-    <div class="menu-content">
-        <h1>DODGE GAME</h1>
-        <div class="stats-panel">
-            <div class="stat-item">
-                <span class="stat-label">Coins</span>
-                <span class="stat-value" id="menuCoins">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Best</span>
-                <span class="stat-value" id="menuBest">0</span>
-            </div>
-        </div>
-        
-        <div class="menu-buttons">
-            <button id="startGameBtn" class="menu-btn play-btn">▶ PLAY</button>
-            <button id="openShopBtn" class="menu-btn shop-btn">🛒 SHOP</button>
-            <button id="openAuthorBtn" class="menu-btn author-btn">👤 AUTHOR</button>
-        </div>
-        
-        <div class="version">v1.0.0</div>
-    </div>
-</div>
-
-<!-- SHOP SCREEN -->
-<div id="shopScreen" class="screen" style="display: none;">
-    <div class="shop-content">
-        <div class="shop-header">
-            <h2>SKIN SHOP</h2>
-            <div class="shop-coins">
-                <span>Your Coins: </span>
-                <span id="shopCoins">0</span>
-            </div>
-        </div>
-        
-        <div class="skins-grid">
-            <!-- Skin 0 - Default -->
-            <div class="skin-card" data-skin="0">
-                <img src="67meme.jpg" alt="Default">
-                <div class="skin-name">Basic Skin</div>
-                <div class="skin-price">FREE</div>
-                <div class="skin-status" id="skin0">OWNED</div>
-            </div>
-            
-            <!-- Skin 1 - Blue Guy -->
-            <div class="skin-card" data-skin="1">
-                <img src="kobe.png" alt="Blue Guy">
-                <div class="skin-name">Kobe</div>
-                <div class="skin-price">100 🪙</div>
-                <div class="skin-status" id="skin1">
-                    <button class="buy-btn" data-price="100">BUY</button>
-                </div>
-            </div>
-            
-            <!-- Skin 2 - Red Guy -->
-            <div class="skin-card" data-skin="2">
-                <img src="skin3.png" alt="Red Guy">
-                <div class="skin-name">Red Guy</div>
-                <div class="skin-price">250 🪙</div>
-                <div class="skin-status" id="skin2">
-                    <button class="buy-btn" data-price="250">BUY</button>
-                </div>
-            </div>
-            
-            <!-- Skin 3 - Gold Guy -->
-            <div class="skin-card" data-skin="3">
-                <img src="skin4.png" alt="Gold Guy">
-                <div class="skin-name">Gold Guy</div>
-                <div class="skin-price">500 🪙</div>
-                <div class="skin-status" id="skin3">
-                    <button class="buy-btn" data-price="500">BUY</button>
-                </div>
-            </div>
-            
-            <!-- Skin 4 - Green Guy (NEW) -->
-            <div class="skin-card" data-skin="4">
-                <img src="skin5.png" alt="Green Guy">
-                <div class="skin-name">Green Guy</div>
-                <div class="skin-price">750 🪙</div>
-                <div class="skin-status" id="skin4">
-                    <button class="buy-btn" data-price="750">BUY</button>
-                </div>
-            </div>
-            
-            <!-- Skin 5 - Purple Guy (NEW) -->
-            <div class="skin-card" data-skin="5">
-                <img src="skin6.png" alt="Purple Guy">
-                <div class="skin-name">Purple Guy</div>
-                <div class="skin-price">1000 🪙</div>
-                <div class="skin-status" id="skin5">
-                    <button class="buy-btn" data-price="1000">BUY</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="shop-footer">
-            <button id="backFromShopBtn" class="back-btn">← BACK TO MENU</button>
-        </div>
-    </div>
-</div>
-
-<!-- AUTHOR SCREEN -->
-<div id="authorScreen" class="screen" style="display: none;">
-    <div class="author-content">
-        <h2>ABOUT THE CREATOR</h2>
-        
-        <div class="author-card">
-            <div class="author-avatar">
-                <img src="authorImage.png" alt="Author" id="authorImage">
-                <div class="avatar-placeholder">📷</div>
-            </div>
-            
-            <div class="author-info">
-                <h3>Boncodin, Jhay-em</h3>
-                <p class="author-title">Student</p>
-                
-                <div class="author-bio">
-                    <p>Hey! I'm the creator of this Dodge Game. I love making fun and challenging games that you can play anywhere.</p>
-                    <p>This is my first mobile-friendly game with shop system, skins, and progression. Hope you enjoy it!</p>
-                </div>
-                
-                <div class="author-social">
-                    <div class="social-item">📧 your.email@example.com</div>
-                    <div class="social-item">💻 github.com/HiraiSyzu</div>
-                </div>
-                
-                <div class="author-stats">
-                    <div class="author-stat">
-                        <span class="stat-number" id="totalGames">0</span>
-                        <span class="stat-label">Games Played</span>
-                    </div>
-                    <div class="author-stat">
-                        <span class="stat-number" id="totalEarnings">0</span>
-                        <span class="stat-label">Total Coins</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="special-thanks">
-            <h4>Special Thanks</h4>
-            <p>Thanks for playing my game! ❤️</p>
-        </div>
-        
-        <button id="backFromAuthorBtn" class="back-btn">← BACK TO MENU</button>
-    </div>
-</div>
-
-<!-- GAME SCREEN -->
-<div id="gameScreen" class="screen" style="display: none;">
     <div id="gameContainer">
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <canvas id="gameCanvas"></canvas>
         
-        <!-- In-Game UI -->
+        <!-- Game UI -->
         <div id="gameUI">
-            <div class="game-stats">
-                <div class="score-box">
-                    <span class="stat-label">SCORE</span>
-                    <span id="score">0</span>
-                </div>
-                <div class="highscore-box">
-                    <span class="stat-label">BEST</span>
-                    <span id="highScore">0</span>
-                </div>
-                <div class="coin-box">
-                    <span class="stat-label">🪙</span>
-                    <span id="gameCoins">0</span>
-                </div>
+            <div>Score: <span id="score">0</span></div>
+            <div>🪙 <span id="gameCoins">0</span></div>
+            <div id="levelBarContainer">
+                <div id="levelBar"></div>
             </div>
-            
-            <div id="levelContainer">
-                <div id="levelTag">LVL 1</div>
-                <div id="levelBarBG"><div id="levelBar"></div></div>
-            </div>
-            
-            <button id="pauseBtn" class="pause-btn">⏸️</button>
-            <button id="menuBtn" class="menu-btn small">🏠</button>
+            <div><span id="levelTag">LVL 1</span></div>
+            <button id="pauseBtn">⏸️</button>
         </div>
-
-        <!-- Game Over / Start Screen -->
-        <div id="instructions">
-            <h1 id="title">DODGE</h1>
-            <p id="desc">Use Arrows or Tap Sides to move</p>
+        
+        <!-- Menu Screen -->
+        <div id="menuScreen" class="screen">
+            <h1>DODGE</h1>
+            <div class="stats">
+                <div>🪙 <span id="menuCoins">0</span></div>
+                <div>🏆 <span id="menuBest">0</span></div>
+            </div>
             <div class="current-skin-display">
-                <img src="GamePlayer.png" id="previewSkin" width="60">
+                <img id="previewSkin" src="GamePlayer.png" alt="skin">
             </div>
-            <button id="startBtn">START GAME</button>
+            <button id="startGameBtn">START GAME</button>
+            <button id="openShopBtn">SHOP</button>
+            <button id="openAuthorBtn">AUTHOR</button>
+        </div>
+        
+        <!-- Shop Screen -->
+        <div id="shopScreen" class="screen">
+            <h2>SHOP</h2>
+            <div>Your Coins: 🪙 <span id="shopCoins">0</span></div>
+            <div class="skin-grid">
+                <div class="skin-item">
+                    <img src="GamePlayer.png" alt="Default">
+                    <div>Default</div>
+                    <div id="skin0"></div>
+                </div>
+                <div class="skin-item">
+                    <img src="skin1.png" alt="Blue">
+                    <div>Blue</div>
+                    <div id="skin1"></div>
+                </div>
+                <div class="skin-item">
+                    <img src="skin2.png" alt="Red">
+                    <div>Red</div>
+                    <div id="skin2"></div>
+                </div>
+                <div class="skin-item">
+                    <img src="skin3.png" alt="Gold">
+                    <div>Gold</div>
+                    <div id="skin3"></div>
+                </div>
+                <div class="skin-item">
+                    <img src="skin4.png" alt="Green">
+                    <div>Green</div>
+                    <div id="skin4"></div>
+                </div>
+                <div class="skin-item">
+                    <img src="skin5.png" alt="Purple">
+                    <div>Purple</div>
+                    <div id="skin5"></div>
+                </div>
+            </div>
+            <button class="back-btn" id="backFromShopBtn">BACK</button>
+        </div>
+        
+        <!-- Author Screen -->
+        <div id="authorScreen" class="screen">
+            <h2>AUTHOR</h2>
+            <div>Total Games: <span id="totalGames">0</span></div>
+            <div>Total Earnings: 🪙 <span id="totalEarnings">0</span></div>
+            <button class="back-btn" id="backFromAuthorBtn">BACK</button>
+        </div>
+        
+        <!-- Instructions / Game Over -->
+        <div id="instructions">
+            <h2 id="title">DODGE</h2>
+            <p id="desc">Use Arrows or Tap Sides to move</p>
+        </div>
+        
+        <!-- Pause Menu -->
+        <div id="pauseMenu">
+            <h2>PAUSED</h2>
+            <button id="resumeBtn">RESUME</button>
+            <button id="quitToMenuBtn">QUIT</button>
         </div>
     </div>
-</div>
-
-<!-- PAUSE MENU (hidden by default) -->
-<div id="pauseMenu" class="pause-overlay" style="display: none;">
-    <div class="pause-content">
-        <h3>GAME PAUSED</h3>
-        <button id="resumeBtn">RESUME</button>
-        <button id="quitToMenuBtn">QUIT TO MENU</button>
-    </div>
-</div>
-
-<script src="DodgeGame.js"></script>
+    
+    <script src="game.js"></script>
 </body>
 </html>
-
-
-
-
-
