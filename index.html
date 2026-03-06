@@ -8,7 +8,7 @@
     <div id="gameContainer">
         <canvas id="gameCanvas" width="400" height="600"></canvas>
         
-        <!-- Game UI -->
+        <!-- Game UI (always visible during gameplay) -->
         <div id="gameUI">
             <span>Score: <span id="score">0</span></span>
             <span>💰 <span id="gameCoins">0</span></span>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="current-skin-display">
-                <img id="previewSkin" src="GamePlayer.png" alt="skin">
+                <img id="previewSkin" src="67meme.jpg" alt="skin">
                 <div class="skin-name">Current Skin</div>
             </div>
             <button class="menu-btn" id="startGameBtn">▶ START GAME</button>
@@ -62,6 +62,11 @@
             <button class="back-btn small" id="backFromInstructionsBtn">← BACK</button>
         </div>
         
+        <!-- Game Screen (just the canvas, UI is separate) -->
+        <div id="gameScreen" class="screen">
+            <!-- Game UI is already above, this screen just shows the canvas -->
+        </div>
+        
         <!-- Game Over Screen -->
         <div id="gameOverScreen" class="screen">
             <h2>💀 GAME OVER</h2>
@@ -87,7 +92,7 @@
                     <div id="skin0"></div>
                 </div>
                 <div class="skin-item">
-                    <img src="kobe.png" alt="Blue">
+                    <img src="kobe.jpg" alt="Kobe">
                     <div>Blue</div>
                     <div id="skin1"></div>
                 </div>
@@ -136,5 +141,3 @@
     <script src="DodgeGame.js"></script>
 </body>
 </html>
-
-
