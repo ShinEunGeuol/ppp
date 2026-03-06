@@ -1,4 +1,9 @@
 // ===== 1. CORE VARIABLES =====
+console.log('JS file loaded');
+console.log('Canvas element:', document.getElementById('gameCanvas'));
+console.log('Start button:', document.getElementById('startGameBtn'));
+console.log('Proceed button:', document.getElementById('proceedToGameBtn'));
+
 let isRunning = false, score = 0, level = 1, frameCount = 0;
 let highScore = parseInt(localStorage.getItem('dodgeBest')) || 0;
 let coins = parseInt(localStorage.getItem('dodgeCoins')) || 0;
