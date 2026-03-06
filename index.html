@@ -12,6 +12,7 @@
         <div id="gameUI">
             <span>Score: <span id="score">0</span></span>
             <span>💰 <span id="gameCoins">0</span></span>
+            <span>🏆 <span id="highScore">0</span></span>  <!-- ADD THIS LINE -->
             <div id="levelBarContainer">
                 <div id="levelBar"></div>
             </div>
@@ -63,7 +64,7 @@
         </div>
         
         <!-- Game Screen (just the canvas, UI is separate) -->
-        <div id="gameScreen" class="screen">
+        <div id="gameScreen" class="screen" style="background: transparent; z-index: 1;">
             <!-- Game UI is already above, this screen just shows the canvas -->
         </div>
         
@@ -93,12 +94,12 @@
                 </div>
                 <div class="skin-item">
                     <img src="kobe.jpg" alt="Kobe">
-                    <div>Blue</div>
+                    <div>Kobe</div>
                     <div id="skin1"></div>
                 </div>
                 <div class="skin-item">
-                    <img src="lindawalker.jpg" alt="Red">
-                    <div>Red</div>
+                    <img src="lindawalker.jpg" alt="Linda">
+                    <div>Linda</div>
                     <div id="skin2"></div>
                 </div>
                 <div class="skin-item">
