@@ -43,7 +43,7 @@ enemyImg.onerror = () => console.log('Enemy image failed to load, using fallback
 
 // FIXED: Enhanced loadSkin function with onload event
 function loadSkin() {
-    const skinSrc = currentSkin === 0 ? 'GamePlayer.png' : skin${currentSkin + 1}.png;
+    const skinSrc = currentSkin === 0 ? 'GamePlayer.png' : `skin${currentSkin + 1}.png`;
     
     // Clear and set new image source
     playerImg.src = '';
@@ -136,12 +136,12 @@ function gameOver() {
     if (instructions) {
         instructions.style.display = 'block';
         if (title) title.innerText = 'GAME OVER';
-        if (desc) desc.innerHTML = Score: ${score} | Earned: ${earned} 🪙<br>Best: ${highScore};
+        if (desc) desc.innerHTML = `Score: ${score} | Earned: ${earned} 🪙<br>Best: ${highScore}`;
     }
     
     // Update preview skin
     if (previewSkin) {
-        previewSkin.src = currentSkin === 0 ? 'GamePlayer.png' : skin${currentSkin + 1}.png;
+        previewSkin.src = currentSkin === 0 ? 'GamePlayer.png' : `skin${currentSkin + 1}.png`;
     }
     
     // Update menu coins
@@ -187,7 +187,7 @@ function update() {
             const levelBar = document.getElementById('levelBar');
             
             if (scoreElement) scoreElement.innerText = score;
-            if (levelTag) levelTag.innerText = LVL ${level};
+            if (levelTag) levelTag.innerText = `LVL ${level}`;
             if (levelBar) levelBar.style.width = ((score % 10) * 10) + '%';
         }
     }
@@ -299,7 +299,7 @@ function switchScreen(screen) {
         
         // Update preview skin
         const previewSkin = document.getElementById('previewSkin');
-        if (previewSkin) previewSkin.src = currentSkin === 0 ? 'GamePlayer.png' : skin${currentSkin + 1}.png;
+        if (previewSkin) previewSkin.src = currentSkin === 0 ? 'GamePlayer.png' : `skin${currentSkin + 1}.png`;
     }
 }
 
@@ -312,10 +312,10 @@ function updateShopUI() {
     const totalSkins = 6; // Changed from 4 to 6
     
     for (let i = 0; i < totalSkins; i++) {
-        const statusDiv = document.getElementById(skin${i});
+        const statusDiv = document.getElementById(`skin${i}`);
         if (!statusDiv) {
             // If skin element doesn't exist in HTML, we need to create it
-            console.log(Skin ${i} element not found in HTML);
+            console.log(`Skin ${i} element not found in HTML`);
             continue;
         }
         
@@ -325,9 +325,9 @@ function updateShopUI() {
         if (isEquipped) {
             statusDiv.innerHTML = '<span class="equipped-tag">EQUIPPED</span>';
         } else if (isOwned) {
-            statusDiv.innerHTML = <button class="equip-btn" data-skin="${i}">EQUIP</button>;
+            statusDiv.innerHTML = `<button class="equip-btn" data-skin="${i}">EQUIP</button>`;
         } else {
-            statusDiv.innerHTML = <button class="buy-btn" data-skin="${i}" data-price="${prices[i]}">BUY ${prices[i]} 🪙</button>;
+            statusDiv.innerHTML = `<button class="buy-btn" data-skin="${i}" data-price="${prices[i]}">BUY ${prices[i]} 🪙</button>`;
         }
     }
     
@@ -384,10 +384,10 @@ window.equipSkin = (i) => {
     
     // Update all skin previews
     const previewSkin = document.getElementById('previewSkin');
-    if (previewSkin) previewSkin.src = currentSkin === 0 ? 'GamePlayer.png' : skin${currentSkin + 1}.png;
+    if (previewSkin) previewSkin.src = currentSkin === 0 ? 'GamePlayer.png' : `skin${currentSkin + 1}.png`;
     
     const startPreview = document.querySelector('.current-skin-display img');
-    if (startPreview) startPreview.src = currentSkin === 0 ? 'GamePlayer.png' : skin${currentSkin + 1}.png;
+    if (startPreview) startPreview.src = currentSkin === 0 ? 'GamePlayer.png' : `skin${currentSkin + 1}.png`;
     
     updateShopUI();
     
