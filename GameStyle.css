@@ -1,3 +1,4 @@
+/* Your existing CSS stays EXACTLY the same at the top */
 * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
 
 body { 
@@ -35,3 +36,591 @@ button {
 }
 
 button:active { transform: scale(0.95); }
+
+/* ===== NEW SCREEN SYSTEM ===== */
+
+/* Screen System */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0a0a1a;
+    z-index: 1000;
+}
+
+/* Main Menu */
+.menu-content {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    padding: 40px;
+    border-radius: 30px;
+    border: 2px solid #00ffcc;
+    text-align: center;
+    color: white;
+    width: 380px;
+    box-shadow: 0 20px 40px rgba(0,255,204,0.2);
+}
+
+.menu-content h1 {
+    font-size: 48px;
+    color: #00ffcc;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px #00ffcc;
+    letter-spacing: 2px;
+}
+
+.stats-panel {
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #333;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00ffcc;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.menu-btn {
+    margin: 0;
+    padding: 15px;
+    font-size: 22px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.menu-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.play-btn {
+    background: #00ffcc;
+    color: #0a0a1a;
+    box-shadow: 0 5px 0 #008866;
+}
+
+.shop-btn {
+    background: #ffaa00;
+    color: #0a0a1a;
+    box-shadow: 0 5px 0 #aa7700;
+}
+
+.author-btn {
+    background: #ff66aa;
+    color: #0a0a1a;
+    box-shadow: 0 5px 0 #aa3366;
+}
+
+.small {
+    padding: 10px !important;
+    font-size: 20px !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
+.version {
+    color: #666;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+/* Shop Screen */
+.shop-content {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    padding: 30px;
+    border-radius: 30px;
+    border: 2px solid #ffaa00;
+    width: 420px;
+    max-height: 85vh;
+    overflow-y: auto;
+    color: white;
+    box-shadow: 0 20px 40px rgba(255,170,0,0.2);
+}
+
+.shop-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.shop-header h2 {
+    color: #ffaa00;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.shop-coins {
+    font-size: 24px;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    border: 1px solid #ffaa00;
+}
+
+.skins-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.skin-card {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #444;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.skin-card:hover {
+    border-color: #ffaa00;
+    transform: translateY(-2px);
+}
+
+.skin-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    background: #0a0a1a;
+    border-radius: 15px;
+    padding: 8px;
+}
+
+.skin-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.skin-price {
+    color: #ffaa00;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.buy-btn, .equip-btn {
+    margin: 0;
+    padding: 8px 15px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.equip-btn {
+    background: #ffaa00;
+}
+
+.owned-tag {
+    color: #00ffcc;
+    font-weight: bold;
+    padding: 8px;
+    background: rgba(0,255,204,0.1);
+    border-radius: 5px;
+}
+
+.equipped-tag {
+    color: #ffaa00;
+    font-weight: bold;
+    padding: 8px;
+    background: rgba(255,170,0,0.1);
+    border-radius: 5px;
+}
+
+.shop-footer {
+    text-align: center;
+}
+
+.back-btn {
+    background: #ff5555;
+    color: white;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    transform: scale(1.05);
+    background: #ff3333;
+}
+
+/* Author Screen */
+.author-content {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    padding: 30px;
+    border-radius: 30px;
+    border: 2px solid #ff66aa;
+    width: 450px;
+    max-height: 85vh;
+    overflow-y: auto;
+    color: white;
+    box-shadow: 0 20px 40px rgba(255,102,170,0.2);
+}
+
+.author-content h2 {
+    color: #ff66aa;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.author-card {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    background: rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.author-avatar {
+    flex-shrink: 0;
+}
+
+.author-avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #ff66aa;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    border: 3px solid #ff66aa;
+}
+
+.author-info h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #ff66aa;
+}
+
+.author-title {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.author-bio {
+    margin-bottom: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+.author-social {
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.social-item {
+    padding: 5px;
+    font-size: 14px;
+    color: #ff66aa;
+}
+
+.author-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.author-stat {
+    flex: 1;
+    text-align: center;
+    background: rgba(255,102,170,0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff66aa;
+}
+
+.special-thanks {
+    text-align: center;
+    margin: 25px 0;
+    padding: 15px;
+    background: rgba(255,102,170,0.1);
+    border-radius: 15px;
+}
+
+.special-thanks h4 {
+    color: #ff66aa;
+    margin-bottom: 5px;
+}
+
+/* Game Screen UI */
+#gameUI {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.game-stats {
+    display: flex;
+    gap: 10px;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #00ffcc;
+}
+
+.score-box, .highscore-box, .coin-box {
+    text-align: center;
+    min-width: 60px;
+}
+
+.coin-box .stat-label {
+    color: #ffaa00;
+}
+
+.pause-btn, #menuBtn {
+    pointer-events: auto;
+    width: 45px;
+    height: 45px;
+    border-radius: 23px;
+    margin: 0 5px;
+    font-size: 20px;
+    padding: 0;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #00ffcc;
+}
+
+#menuBtn {
+    background: rgba(255,85,85,0.7);
+    border-color: #ff5555;
+}
+
+/* Pause Menu */
+.pause-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.pause-content {
+    background: #1a1a2e;
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid #00ffcc;
+    text-align: center;
+}
+
+.pause-content h3 {
+    color: white;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.pause-content button {
+    width: 200px;
+    margin: 10px;
+}
+
+#resumeBtn {
+    background: #00ffcc;
+}
+
+#quitToMenuBtn {
+    background: #ff5555;
+    color: white;
+}
+
+.current-skin-display {
+    margin: 15px 0;
+}
+
+.current-skin-display img {
+    background: #0a0a1a;
+    border-radius: 10px;
+    padding: 5px;
+    border: 2px solid #00ffcc;
+}
+
+/* ===== SKIN-SPECIFIC STYLES FOR NEW SKINS ===== */
+/* These styles will apply to the preview images in shop */
+
+/* Skin 4 - Green Guy (data-skin="4") */
+.skin-card[data-skin="4"] img {
+    background: linear-gradient(145deg, #004d00, #00cc00);
+    border: 2px solid #00ff00;
+}
+
+.skin-card[data-skin="4"] .skin-name {
+    color: #00ff00;
+}
+
+/* Skin 5 - Purple Guy (data-skin="5") */
+.skin-card[data-skin="5"] img {
+    background: linear-gradient(145deg, #4b0082, #aa00ff);
+    border: 2px solid #ff66ff;
+}
+
+.skin-card[data-skin="5"] .skin-name {
+    color: #ff66ff;
+}
+
+/* Optional: Add styles for even more skins */
+.skin-card[data-skin="6"] img {
+    background: linear-gradient(145deg, #ff8800, #ffcc00);
+    border: 2px solid #ffff00;
+}
+
+.skin-card[data-skin="6"] .skin-name {
+    color: #ffcc00;
+}
+
+.skin-card[data-skin="7"] img {
+    background: linear-gradient(145deg, #ff00aa, #ff66cc);
+    border: 2px solid #ffaaff;
+}
+
+.skin-card[data-skin="7"] .skin-name {
+    color: #ffaaff;
+}
+
+/* Fix for highscore text color */
+#highScore, .stat-value, .score-box span, .highscore-box span {
+    color: #00ffcc !important;
+}
+
+/* Make sure menu highscore is visible */
+#menuBest {
+    color: #00ffcc !important;
+    font-weight: bold;
+}
+
+/* Fix for game over screen highscore */
+#desc {
+    color: white !important;
+}
+#desc span {
+    color: #00ffcc !important;
+}
+
+/* Ensure all score displays are visible */
+#score, #highScore, #gameCoins {
+    color: #00ffcc !important;
+    font-weight: bold;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 450px) {
+    .menu-content, .shop-content, .author-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .menu-content h1 {
+        font-size: 36px;
+    }
+    
+    .skins-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .author-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .author-stats {
+        flex-direction: column;
+    }
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.play-btn {
+    animation: pulse 2s infinite;
+}
+
+.play-btn:hover {
+    animation: none;
+}
+
+/* Scrollbar styling for shop */
+.shop-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.shop-content::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.shop-content::-webkit-scrollbar-thumb {
+    background: #ffaa00;
+    border-radius: 4px;
+}
+
+.shop-content::-webkit-scrollbar-thumb:hover {
+    background: #ffbb22;
+}
