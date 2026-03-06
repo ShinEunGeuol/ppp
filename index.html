@@ -6,16 +6,16 @@
 </head>
 <body>
     <div id="gameContainer">
-        <canvas id="gameCanvas"></canvas>
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
         
         <!-- Game UI -->
         <div id="gameUI">
-            <div>Score: <span id="score">0</span></div>
-            <div>🪙 <span id="gameCoins">0</span></div>
+            <span>Score: <span id="score">0</span></span>
+            <span>🪙 <span id="gameCoins">0</span></span>
             <div id="levelBarContainer">
                 <div id="levelBar"></div>
             </div>
-            <div><span id="levelTag">LVL 1</span></div>
+            <span id="levelTag">LVL 1</span>
             <button id="pauseBtn">⏸️</button>
         </div>
         
@@ -23,11 +23,11 @@
         <div id="menuScreen" class="screen">
             <h1>DODGE</h1>
             <div class="stats">
-                <div>🪙 <span id="menuCoins">0</span></div>
-                <div>🏆 <span id="menuBest">0</span></div>
+                <span>🪙 <span id="menuCoins">0</span></span>
+                <span>🏆 <span id="menuBest">0</span></span>
             </div>
             <div class="current-skin-display">
-                <img id="previewSkin" src="GamePlayer.png" alt="skin">
+                <img id="previewSkin" src="67meme.png" alt="skin">
             </div>
             <button id="startGameBtn">START GAME</button>
             <button id="openShopBtn">SHOP</button>
@@ -40,7 +40,7 @@
             <div>Your Coins: 🪙 <span id="shopCoins">0</span></div>
             <div class="skin-grid">
                 <div class="skin-item">
-                    <img src="GamePlayer.png" alt="Default">
+                    <img src=67meme.png" alt="Default">
                     <div>Default</div>
                     <div id="skin0"></div>
                 </div>
@@ -50,7 +50,7 @@
                     <div id="skin1"></div>
                 </div>
                 <div class="skin-item">
-                    <img src="skin2.png" alt="Red">
+                    <img src="kobe.png" alt="Red">
                     <div>Red</div>
                     <div id="skin2"></div>
                 </div>
@@ -98,4 +98,3 @@
     <script src="DodgeGame.js"></script>
 </body>
 </html>
-
