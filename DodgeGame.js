@@ -12,7 +12,7 @@ let touchLeft = false, touchRight = false;
 
 // Audio
 const gameMusic = new Audio('GameMusic.mp3');
-const crashSound = new Audio('crash.mp3');
+const crashSound = new Audio('fahh.mp3');
 gameMusic.loop = true;
 gameMusic.volume = 0.4;
 
