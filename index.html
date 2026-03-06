@@ -41,6 +41,41 @@
             <button class="menu-btn" id="openAuthorBtn">👤 AUTHOR</button>
         </div>
         
+        <!-- Instructions Screen -->
+        <div id="instructionsScreen" class="screen">
+            <h2>🎮 HOW TO PLAY</h2>
+            <div class="controls-box">
+                <div class="control-item">
+                    <span class="key">← →</span>
+                    <span>ARROWS</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">👆</span>
+                    <span>TAP SIDES</span>
+                </div>
+            </div>
+            <div class="objective">
+                <h3>OBJECTIVE:</h3>
+                <p>Dodge the red enemies!<br>Survive as long as you can!</p>
+            </div>
+            <button class="start-btn" id="proceedToGameBtn">▶ START DODGING</button>
+            <button class="back-btn small" id="backFromInstructionsBtn">← BACK</button>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="screen">
+            <h2>💀 GAME OVER</h2>
+            <div class="gameover-stats">
+                <div>Score: <span id="finalScore">0</span></div>
+                <div>Earned: 💰 <span id="earnedCoins">0</span></div>
+                <div>Best: 🏆 <span id="finalBest">0</span></div>
+            </div>
+            <div class="gameover-buttons">
+                <button class="restart-btn" id="restartBtn">🔄 PLAY AGAIN</button>
+                <button class="menu-btn" id="gameoverToMenuBtn">🏠 MAIN MENU</button>
+            </div>
+        </div>
+        
         <!-- Shop Screen -->
         <div id="shopScreen" class="screen">
             <h2>🛒 SKIN SHOP</h2>
@@ -52,8 +87,8 @@
                     <div id="skin0"></div>
                 </div>
                 <div class="skin-item">
-                    <img src="kobe.png" alt="kobe">
-                    <div>Kobe Litonjua</div>
+                    <img src="kobe.png" alt="Blue">
+                    <div>Blue</div>
                     <div id="skin1"></div>
                 </div>
                 <div class="skin-item">
@@ -90,17 +125,11 @@
             <button class="back-btn" id="backFromAuthorBtn">← BACK</button>
         </div>
         
-        <!-- Instructions / Game Over -->
-        <div id="instructions">
-            <h2 id="title">DODGE</h2>
-            <p id="desc">Use Arrows or Tap Sides to move</p>
-        </div>
-        
         <!-- Pause Menu -->
         <div id="pauseMenu">
             <h2>⏸ PAUSED</h2>
             <button id="resumeBtn">▶ RESUME</button>
-            <button id="quitToMenuBtn">🏠 QUIT</button>
+            <button id="quitToMenuBtn">🏠 MAIN MENU</button>
         </div>
     </div>
     
