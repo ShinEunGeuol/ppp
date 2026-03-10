@@ -1,4 +1,3 @@
-// ===== 1. CORE STATE & DATA =====
 let isRunning = false, score = 0, level = 1, frameCount = 0;
 let highScore = parseInt(localStorage.getItem('dodgeBest')) || 0;
 let coins = parseInt(localStorage.getItem('dodgeCoins')) || 0;
@@ -16,25 +15,15 @@ const playerImg = new Image();
 const enemyImg = new Image(); 
 enemyImg.src = 'GameEnemy.png';
 
-// ===== 2. SKIN & UI MANAGEMENT =====
 function loadSkin() {
-    const src = skinFiles[currentSkin] || '67meme.jpg';
-    playerImg.src = src;
-    const preview = document.getElementById('previewSkin');
-    if (preview) preview.src = src;
+    playerImg.src = skinFiles[currentSkin] || '67meme.jpg';
+    if (document.getElementById('previewSkin')) document.getElementById('previewSkin').src = playerImg.src;
 }
 
 function switchScreen(id) {
-    // Hide all screens
     document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    
-    // Show target screen
-    const target = document.getElementById(id);
-    if (target) target.style.display = 'flex';
-
-    // Toggle Game UI (Score bar/Pause button)
-    const gameUI = document.getElementById('gameUI');
-    gameUI.style.display = (id === 'gameScreen') ? 'flex' : 'none';
+    document.getElementById(id).style.display = 'flex';
+    document.getElementById('gameUI').style.display = (id === 'gameScreen') ? 'flex' : 'none';
 
     if (id === 'menuScreen') {
         isRunning = false;
@@ -45,7 +34,6 @@ function switchScreen(id) {
     if (id === 'shopScreen') updateShopUI();
 }
 
-// ===== 3. GAME ENGINE =====
 function beginGame() {
     isRunning = true; score = 0; level = 1; enemySpeed = 3.5; spawnRate = 50; enemies = [];
     totalGames++; localStorage.setItem('totalGames', totalGames);
@@ -67,7 +55,6 @@ function gameOver() {
     if (score > highScore) { highScore = score; localStorage.setItem('dodgeBest', highScore); }
     let earned = Math.floor(score / 2) + 1;
     coins += earned; localStorage.setItem('dodgeCoins', coins);
-    
     document.getElementById('finalScore').innerText = score;
     document.getElementById('earnedCoins').innerText = earned;
     document.getElementById('finalBest').innerText = highScore;
@@ -102,14 +89,13 @@ function draw() {
 
 function gameLoop() { if (isRunning) { update(); draw(); requestAnimationFrame(gameLoop); } }
 
-// ===== 4. SHOP & EVENTS =====
 function updateShopUI() {
     const prices = [0, 100, 250, 500, 750, 1000];
     document.getElementById('shopCoins').innerText = coins;
     for (let i = 0; i < 6; i++) {
         const div = document.getElementById(`skin${i}`);
         if (!div) continue;
-        if (currentSkin === i) div.innerHTML = '<b style="color:#00d2ff">ACTIVE</b>';
+        if (currentSkin === i) div.innerHTML = '<b>ACTIVE</b>';
         else if (ownedSkins.includes(i)) div.innerHTML = `<button onclick="equipSkin(${i})" class="shop-btn">EQUIP</button>`;
         else div.innerHTML = `<button onclick="buySkin(${i},${prices[i]})" class="shop-btn">BUY ${prices[i]}</button>`;
     }
@@ -127,7 +113,6 @@ window.buySkin = (id, p) => {
 window.equipSkin = (id) => { currentSkin = id; localStorage.setItem('currentSkin', id); loadSkin(); updateShopUI(); };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Navigation
     document.getElementById('startGameBtn').onclick = () => switchScreen('instructionsScreen');
     document.getElementById('backFromInstructionsBtn').onclick = () => switchScreen('menuScreen');
     document.getElementById('proceedToGameBtn').onclick = beginGame;
@@ -141,16 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
         switchScreen('authorScreen');
     };
     document.getElementById('backFromAuthorBtn').onclick = () => switchScreen('menuScreen');
-
-    // Pause logic
     document.getElementById('pauseBtn').onclick = () => { isRunning = false; document.getElementById('pauseMenu').style.display = 'flex'; };
     document.getElementById('resumeBtn').onclick = () => { isRunning = true; document.getElementById('pauseMenu').style.display = 'none'; gameLoop(); };
     document.getElementById('quitToMenuBtn').onclick = () => { document.getElementById('pauseMenu').style.display = 'none'; switchScreen('menuScreen'); };
-
     switchScreen('menuScreen');
 });
 
-// Controls
 window.onkeydown = e => { if (e.key === 'ArrowLeft') keys.left = true; if (e.key === 'ArrowRight') keys.right = true; };
 window.onkeyup = e => { if (e.key === 'ArrowLeft') keys.left = false; if (e.key === 'ArrowRight') keys.right = false; };
 canvas.ontouchstart = e => { let x = e.touches[0].clientX - canvas.getBoundingClientRect().left; if (x < 200) touchLeft = true; else touchRight = true; };
