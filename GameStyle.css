@@ -1,27 +1,36 @@
+/* =========================================
+   1. GLOBAL RESET & BASE
+   ========================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background: #0a0a1a;
+    background: #050510;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* =========================================
+   2. MAIN CONTAINER (The Phone Frame)
+   ========================================= */
 #gameContainer {
     width: 400px;
     height: 600px;
     position: relative;
     border: 3px solid #00d2ff;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+    background: #000;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4), 
+                inset 0 0 15px rgba(0, 210, 255, 0.2);
 }
 
 canvas {
@@ -30,429 +39,199 @@ canvas {
     display: block;
 }
 
-/* Screens */
+/* =========================================
+   3. SCREEN SYSTEM
+   ========================================= */
 .screen {
-    display: none;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+    inset: 0;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background: radial-gradient(circle, #1a1a3a 0%, #050510 100%);
     color: white;
     z-index: 10;
+    text-align: center;
+    padding: 20px;
 }
 
-#menuScreen {
-    display: flex;
+/* =========================================
+   4. GAMEPLAY UI (Top Bar)
+   ========================================= */
+#gameUI {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
 }
 
-/* Menu Screen */
-#menuScreen h1 {
-    font-size: 48px;
+#levelBarContainer {
+    width: 60px;
+    height: 8px;
+    background: #222;
+    border-radius: 4px;
+    border: 1px solid #444;
+    overflow: hidden;
+}
+
+#levelBar {
+    height: 100%;
+    background: #00d2ff;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* =========================================
+   5. MENU STYLES
+   ========================================= */
+h1, h2 {
+    font-size: 38px;
     margin-bottom: 20px;
+    color: #fff;
     text-shadow: 0 0 10px #00d2ff;
     letter-spacing: 2px;
 }
 
 .stats {
     display: flex;
-    gap: 30px;
-    margin: 20px 0;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 15px 25px;
-    border-radius: 50px;
-    border: 1px solid #00d2ff;
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
-.stat-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 24px;
-}
-
-.stat-icon {
-    font-size: 28px;
-}
-
-.current-skin-display {
-    margin: 20px 0;
-    text-align: center;
-}
-
-.current-skin-display img {
-    width: 100px;
-    height: 100px;
-    border: 3px solid #00d2ff;
-    border-radius: 15px;
-    background: #0a0a1a;
-    padding: 5px;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
-}
-
-.skin-name {
-    margin-top: 10px;
-    color: #00d2ff;
-    font-weight: bold;
-}
-
-.menu-btn {
-    width: 220px;
-    margin: 8px;
-    font-size: 18px;
-    background: rgba(0, 210, 255, 0.2);
-    color: white;
-    border: 2px solid #00d2ff;
-    transition: all 0.3s;
-}
-
-.menu-btn:hover {
-    background: #00d2ff;
-    color: #0a0a1a;
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #00d2ff;
-}
-
-/* Game UI */
-#gameUI {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    z-index: 5;
-    font-size: 16px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 30px;
-    backdrop-filter: blur(5px);
-}
-
-#levelBarContainer {
-    width: 100px;
-    height: 10px;
-    background: #333;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-#levelBar {
-    height: 100%;
-    background: linear-gradient(90deg, #00d2ff, #ffaa00);
-    border-radius: 5px;
-    width: 0%;
-}
-
-/* Instructions Screen */
-#instructionsScreen h2 {
-    font-size: 36px;
-    color: #00d2ff;
-    margin-bottom: 30px;
-    text-shadow: 0 0 10px #00d2ff;
-}
-
-.controls-box {
+.stat-box, .coins-display {
     background: rgba(0, 210, 255, 0.1);
-    border: 2px solid #00d2ff;
-    border-radius: 20px;
-    padding: 30px;
-    margin: 20px;
-    width: 300px;
-}
-
-.control-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 20px 0;
-    font-size: 24px;
-}
-
-.key {
-    background: #00d2ff;
-    color: #0a0a1a;
-    padding: 10px 20px;
-    border-radius: 10px;
+    border: 1.5px solid #00d2ff;
+    padding: 8px 18px;
+    border-radius: 25px;
     font-weight: bold;
-    min-width: 100px;
-    text-align: center;
-    box-shadow: 0 0 15px #00d2ff;
+    color: #fff;
 }
 
-.objective {
-    margin: 30px 0;
-    text-align: center;
-}
-
-.objective h3 {
-    color: #ffaa00;
-    font-size: 20px;
+#previewSkin {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    border: 3px solid #00d2ff;
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
-.objective p {
-    font-size: 18px;
-    line-height: 1.5;
-    color: white;
-}
-
-.start-btn {
-    background: #00ff88;
-    color: #0a0a1a;
-    font-size: 20px;
-    padding: 15px 30px;
-    width: 250px;
-    margin: 10px;
-    border: none;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 0 20px #00ff88;
-}
-
-.start-btn:hover {
-    transform: scale(1.1);
-    background: #00ffaa;
-}
-
-.small {
-    width: 150px;
-    font-size: 14px;
-}
-
-/* Game Over Screen */
-#gameOverScreen {
-    background: linear-gradient(135deg, #1a0a0a 0%, #3a1a1a 100%);
-}
-
-#gameOverScreen h2 {
-    font-size: 48px;
-    color: #ff4444;
-    margin-bottom: 30px;
-    text-shadow: 0 0 10px #ff4444;
-}
-
-.gameover-stats {
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid #ff4444;
-    border-radius: 20px;
-    padding: 30px;
-    margin: 20px;
-    width: 300px;
-}
-
-.gameover-stats div {
-    margin: 15px 0;
-    font-size: 24px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.gameover-buttons {
-    margin-top: 30px;
-}
-
-.restart-btn {
-    background: #00d2ff;
-    color: #0a0a1a;
-    font-size: 20px;
-    padding: 15px 30px;
-    width: 250px;
-    margin: 10px;
-    border: none;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 0 20px #00d2ff;
-}
-
-.restart-btn:hover {
-    transform: scale(1.1);
-    background: #00a2ff;
-}
-
-/* Pause Menu */
-#pauseMenu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 30;
-    backdrop-filter: blur(5px);
-}
-
-#pauseMenu h2 {
-    font-size: 48px;
-    margin-bottom: 30px;
-    color: #00d2ff;
-}
-
-/* Shop */
-#shopScreen h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
-    color: #00d2ff;
-}
-
-.coins-display {
-    font-size: 24px;
-    margin: 15px 0;
-    background: rgba(0, 210, 255, 0.2);
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 1px solid #00d2ff;
-}
-
+/* =========================================
+   6. SHOP GRID (The Screenshot Fix)
+   ========================================= */
 .skin-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin: 20px;
-    max-height: 300px;
-    overflow-y: auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     padding: 10px;
+    width: 100%;
 }
 
 .skin-item {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 15px;
-    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid #333;
-    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 12px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .skin-item img {
     width: 70px;
     height: 70px;
-    background: #0a0a1a;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 8px;
-    border: 2px solid #00d2ff;
+    border: 1px solid #444;
+    object-fit: cover;
 }
 
-.equipped-tag {
-    color: #00ff88;
-    font-weight: bold;
-    display: block;
-    margin: 5px 0;
-    text-shadow: 0 0 10px #00ff88;
-}
-
-.equip-btn {
-    background: #3366ff;
-    color: white;
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
+/* Labels like "Default", "Kobe" */
+.skin-item div {
     font-size: 14px;
+    margin-bottom: 4px;
 }
 
-.buy-btn {
-    background: #ffaa00;
-    color: #0a0a1a;
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-/* Author Screen */
-#authorScreen h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
+/* The "ACTIVE" text injected by JS */
+.skin-item b {
     color: #00d2ff;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 800;
 }
 
-.author-stats {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid #00d2ff;
-}
-
-.author-stats div {
-    margin: 15px 0;
-    font-size: 20px;
-}
-
-/* Buttons */
-button {
+/* The "BUY" and "EQUIP" buttons injected by JS */
+.shop-btn {
+    background: #fff;
+    color: #000;
     border: none;
-    padding: 12px 24px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   7. BUTTONS & NAVIGATION
+   ========================================= */
+.menu-btn, .start-btn, .restart-btn {
+    width: 220px;
+    padding: 12px;
     margin: 8px;
     border-radius: 30px;
     font-weight: bold;
-    font-size: 16px;
     cursor: pointer;
-    width: 200px;
-    transition: all 0.3s;
-}
-
-#pauseBtn {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    font-size: 20px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #00d2ff;
+    background: rgba(0, 210, 255, 0.2);
     color: white;
-    border: 2px solid white;
+    transition: 0.2s;
 }
 
-#pauseBtn:hover {
+.menu-btn:hover {
     background: #00d2ff;
-    border-color: #00d2ff;
+    color: black;
 }
 
-#resumeBtn {
-    background: #00d2ff;
-    color: #0a0a1a;
-}
-
-#quitToMenuBtn {
-    background: #ff4444;
-    color: white;
-}
-
+/* Specifically the BACK button from your screenshot */
 .back-btn {
-    background: #ff4444;
-    color: white;
-    width: 150px;
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
     margin-top: 20px;
 }
 
-.back-btn:hover {
-    background: #ff6666;
-    transform: scale(1.05);
+/* =========================================
+   8. PAUSE MENU & OVERLAYS
+   ========================================= */
+#pauseMenu {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
 }
 
-/* Scrollbar */
-.skin-grid::-webkit-scrollbar {
-    width: 5px;
-}
-
-.skin-grid::-webkit-scrollbar-track {
-    background: #1a1a2e;
-    border-radius: 5px;
-}
-
-.skin-grid::-webkit-scrollbar-thumb {
-    background: #00d2ff;
-    border-radius: 5px;
+#pauseBtn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
 }
