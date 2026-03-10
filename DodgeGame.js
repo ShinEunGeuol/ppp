@@ -206,4 +206,110 @@ function switchScreen(screen) {
 
 // ===== 5. REFINED SHOP SYSTEM =====
 function updateShopUI() {
-    const prices = [0, 100, 250, 500, 750, 1
+    const prices = [0, 100, 250, 500, 750, 1000];
+    
+    for (let i = 0; i < 6; i++) {
+        const div = document.getElementById(`skin${i}`);
+        if (!div) continue;
+        
+        if (currentSkin === i) {
+            div.innerHTML = '<span class="equipped-tag">EQUIPPED</span>';
+        } else if (ownedSkins.includes(i)) {
+            div.innerHTML = `<button class="equip-btn" data-skin="${i}">EQUIP</button>`;
+        } else {
+            div.innerHTML = `<button class="buy-btn" data-skin="${i}" data-price="${prices[i]}">BUY ${prices[i]} 🪙</button>`;
+        }
+    }
+    attachShopEvents();
+}
+
+function attachShopEvents() {
+    // Buying Logic
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.onclick = (e) => {
+            const id = parseInt(e.target.dataset.skin);
+            const price = parseInt(e.target.dataset.price);
+            
+            if (coins >= price) {
+                coins -= price;
+                ownedSkins.push(id);
+                localStorage.setItem('dodgeCoins', coins);
+                localStorage.setItem('ownedSkins', JSON.stringify(ownedSkins));
+                updateShopUI();
+                document.getElementById('shopCoins').innerText = coins;
+            } else {
+                alert("Not enough coins!");
+            }
+        };
+    });
+    
+    // Equipping Logic
+    document.querySelectorAll('.equip-btn').forEach(btn => {
+        btn.onclick = (e) => {
+            currentSkin = parseInt(e.target.dataset.skin);
+            localStorage.setItem('currentSkin', currentSkin);
+            
+            loadSkin();    // Trigger the actual image change
+            updateShopUI(); // Update the buttons to show "EQUIPPED"
+        };
+    });
+}
+
+// ===== 6. EVENT LISTENERS =====
+document.addEventListener('DOMContentLoaded', () => {
+    // Buttons
+    document.getElementById('startGameBtn').onclick = () => switchScreen('instructionsScreen');
+    document.getElementById('openShopBtn').onclick = () => switchScreen('shopScreen');
+    document.getElementById('openAuthorBtn').onclick = () => switchScreen('authorScreen');
+    document.getElementById('proceedToGameBtn').onclick = beginGame;
+    document.getElementById('backFromInstructionsBtn').onclick = () => switchScreen('menuScreen');
+    document.getElementById('restartBtn').onclick = () => switchScreen('instructionsScreen');
+    document.getElementById('gameoverToMenuBtn').onclick = () => switchScreen('menuScreen');
+    document.getElementById('backFromShopBtn').onclick = () => switchScreen('menuScreen');
+    document.getElementById('backFromAuthorBtn').onclick = () => switchScreen('menuScreen');
+
+    // Pause Controls
+    document.getElementById('pauseBtn').onclick = () => {
+        if (isRunning) {
+            isRunning = false;
+            document.getElementById('pauseMenu').style.display = 'flex';
+        }
+    };
+    document.getElementById('resumeBtn').onclick = () => {
+        document.getElementById('pauseMenu').style.display = 'none';
+        if (!isRunning) {
+            isRunning = true;
+            gameLoop();
+            gameMusic.play().catch(() => {});
+        }
+    };
+    document.getElementById('quitToMenuBtn').onclick = () => {
+        document.getElementById('pauseMenu').style.display = 'none';
+        switchScreen('menuScreen');
+    };
+
+    switchScreen('menuScreen');
+});
+
+// ===== 7. INPUT CONTROLS =====
+window.onkeydown = e => {
+    if (e.key === 'ArrowLeft') keys.left = true;
+    if (e.key === 'ArrowRight') keys.right = true;
+};
+window.onkeyup = e => {
+    if (e.key === 'ArrowLeft') keys.left = false;
+    if (e.key === 'ArrowRight') keys.right = false;
+};
+
+canvas.ontouchstart = e => {
+    const rect = canvas.getBoundingClientRect();
+    const touchX = e.touches[0].clientX - rect.left;
+    if (touchX < canvas.width / 2) touchLeft = true;
+    else touchRight = true;
+};
+canvas.ontouchend = () => { touchLeft = false; touchRight = false; };
+
+// ===== 8. COLLISION HELPER =====
+function checkCollision(x1,y1,w1,h1,x2,y2,w2,h2) {
+    return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
+}
