@@ -67,7 +67,7 @@ function update() {
     
     for (let i = enemies.length - 1; i >= 0; i--) {
         enemies[i].y += enemySpeed;
-        if (checkCollision(playerX+5, playerY+5, 35, 35, enemies[i].x+5, enemies[i].y+5, 30, 30)) { gameOver(); return; }
+        if (checkCollision(playerX + 5, playerY + 5, 35, 35, enemies[i].x + 5, enemies[i].y + 5, 30, 30)) { gameOver(); return; }
         if (enemies[i].y > canvas.height) {
             enemies.splice(i, 1); score++;
             if (score % 10 === 0) { level++; enemySpeed += 0.5; spawnRate = Math.max(20, spawnRate - 2); }
@@ -87,7 +87,13 @@ function draw() {
     });
 }
 
-function gameLoop() { if (isRunning) { update(); draw(); requestAnimationFrame(gameLoop); } }
+function gameLoop() { 
+    if (isRunning) { 
+        update(); 
+        draw(); 
+        requestAnimationFrame(gameLoop); 
+    } 
+}
 
 function updateShopUI() {
     const prices = [0, 100, 250, 500, 750, 1000];
@@ -110,7 +116,12 @@ window.buySkin = (id, p) => {
     }
 };
 
-window.equipSkin = (id) => { currentSkin = id; localStorage.setItem('currentSkin', id); loadSkin(); updateShopUI(); };
+window.equipSkin = (id) => { 
+    currentSkin = id; 
+    localStorage.setItem('currentSkin', id); 
+    loadSkin(); 
+    updateShopUI(); 
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('startGameBtn').onclick = () => switchScreen('instructionsScreen');
@@ -132,8 +143,23 @@ document.addEventListener('DOMContentLoaded', () => {
     switchScreen('menuScreen');
 });
 
-window.onkeydown = e => { if (e.key === 'ArrowLeft') keys.left = true; if (e.key === 'ArrowRight') keys.right = true; };
-window.onkeyup = e => { if (e.key === 'ArrowLeft') keys.left = false; if (e.key === 'ArrowRight') keys.right = false; };
-canvas.ontouchstart = e => { let x = e.touches[0].clientX - canvas.getBoundingClientRect().left; if (x < 200) touchLeft = true; else touchRight = true; };
+window.onkeydown = e => { 
+    if (e.key === 'ArrowLeft') keys.left = true; 
+    if (e.key === 'ArrowRight') keys.right = true; 
+};
+
+window.onkeyup = e => { 
+    if (e.key === 'ArrowLeft') keys.left = false; 
+    if (e.key === 'ArrowRight') keys.right = false; 
+};
+
+canvas.ontouchstart = e => { 
+    let x = e.touches[0].clientX - canvas.getBoundingClientRect().left; 
+    if (x < 200) touchLeft = true; 
+    else touchRight = true; 
+};
 canvas.ontouchend = () => { touchLeft = false; touchRight = false; };
-function checkCollision(x1,y1,w1,h1,x2,y2,w2,h2) { return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2; }
+
+function checkCollision(x1,y1,w1,h1,x2,y2,w2,h2) { 
+    return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2; 
+}
