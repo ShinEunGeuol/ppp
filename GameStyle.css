@@ -235,3 +235,29 @@ h1, h2 {
     font-size: 20px;
     cursor: pointer;
 }
+/* This targets ALL buttons with the back-btn class */
+.back-btn {
+    display: inline-block;
+    background: #ffffff !important; /* Forces white background */
+    color: #000000 !important;      /* Forces black text */
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 20px;
+    text-decoration: none;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.back-btn:hover {
+    background: #cccccc !important; /* Slight grey on hover */
+}
+
+/* If you have a 'small' variant, this keeps it consistent */
+.back-btn.small {
+    font-size: 10px;
+    padding: 3px 8px;
+}
